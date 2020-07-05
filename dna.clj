@@ -10,4 +10,5 @@
         (count-nucleotides "G" s)
         (count-nucleotides "T" s))
 )
-(println (count-all-nucleotides "AGCTTTTCATTCTGACTGCAACGGGCAATATGTCTCTGTGTGGATTAAAAAAAGAGTGTCTGATAGCAGC"))
+(println "ACGT")
+(println (count-all-nucleotides (slurp "rosalind_dna.txt")))
