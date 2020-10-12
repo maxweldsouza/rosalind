@@ -1,0 +1,1 @@
+# Remove introns and combine exons, then transcribe
