@@ -1,16 +1,17 @@
-from itertools import permutations
+import itertools
+
+def sign_iter(n):
+    signs = [x for x in itertools.product([1, -1], repeat=n)]
+    for x in itertools.permutations(range(1, n+1)):
+        for y in signs:
+            yield [i * j for i, j in zip(x, y)]
 
 def sign(n):
     count = 0
-    numbers = range(1, n + 1)
-    result = []
-    for perm in permutations(numbers, n):
-        count += 1
-        result.append(perm)
-    print list(permutations([-1, 1] * 2, 2))
+    results = list(sign_iter(n))
+    print len(results)
+    for x in results:
+        print ' '.join(str(i) for i in x)
 
-    print count
-    for perm in result:
-        print perm
 
-print sign(2)
+sign(6)
