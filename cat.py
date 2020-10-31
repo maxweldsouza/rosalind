@@ -14,17 +14,16 @@ def cat(N):
         for k in range(1, n+1):
             cn += catalan[k - 1] * catalan[n - k]
         catalan[n] = cn
-    print catalan
     return catalan[N]
 
-print cat(1)
-print cat(2)
-print cat(3)
-print cat(4)
-
 def main():
-    arr = util.read_fasta('cat.input')
+    arr = util.read_fasta('rosalind_cat.txt')
     counts = Counter(arr[0])
-    print cat(counts['U'] / 2) * cat(counts['C'] / 2)
+    count_u = (counts['U'] + counts['A']) / 2
+    count_c = (counts['C'] + counts['G']) / 2
+    print count_c
+    print count_u
+
+    print (cat(count_c) * cat(count_u)) % 1000000
 
 main()
