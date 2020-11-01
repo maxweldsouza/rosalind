@@ -23,3 +23,19 @@ def read_fasta(filename):
     if len(current) > 0:
         strings.append(''.join(current))
     return strings
+
+def choose(n, k):
+    result = 1
+    for i in range(n, k, -1):
+        result *= i
+    for i in range(1, n-k+1):
+        result /= i
+    return result
+
+assert choose(1, 1) == 1
+assert choose(2, 1) == 2
+assert choose(6, 3) == 6 * 5 * 4 / (3 * 2 * 1)
+assert choose(6, 4) == 6 * 5 / (2 * 1)
+assert choose(6, 5) == 6 / 1
+assert choose(6, 6) == 1
+
