@@ -1,60 +1,42 @@
-import unittest
-from sets import Set
+import util
+import itertools
+
+def get_min_length(arr):
+    return min(len(x) for x in arr)
+
+assert get_min_length(['de', 'a', 'abc']) == 1
+assert get_min_length(['', 'a', 'abc']) == 0
+assert get_min_length(['abc', 'adef', 'abc']) == 3
+
+def string_of_length(n):
+    return (''.join(x) for x in itertools.product('CGAT', repeat=n))
+
+def generate_strings(prefixes):
+    for prefix in prefixes:
+        for x in 'CGAT':
+            yield prefix + x
+
+assert list(generate_strings(['CG'])) == ['CGC', 'CGG', 'CGA', 'CGT']
+
+def lcsm(arr):
+    min_length = get_min_length(arr)
+
+    result = ''
+    prefixes = ['C', 'G', 'A', 'T']
+    while True:
+        new_prefixes = []
+        for s in generate_strings(prefixes):
+            isLcs = all(s in x for x in arr)
+            if isLcs:
+                result = s
+                new_prefixes.append(s)
+        prefixes = new_prefixes
+        if len(prefixes) == 0:
+            return result
+    return result
 
 def main():
-    pass
+    arr = util.read_fasta('rosalind_lcsm.txt')
+    return lcsm(arr)
 
-alphabet = Set(['C', 'G', 'A', 'T'])
-
-class SuffixTreeNode:
-    def __init__(self):
-        self.branches = {
-            'C': None,
-            'G': None,
-            'A': None,
-            'T': None
-        }
-        self.string = None
-        self.startIndex = None
-        self.stringNumber = None
-
-    def insert(self, s):
-        pass
-
-    def insert_suffix(self, s):
-        if len(s) == 0:
-            return
-        first = s[0]
-        if first not in alphabet:
-            raise 'Suffix contains characters not in alphabet'
-
-        if not self.branches[first]:
-            self.branches[first] = SuffixTreeNode()
-            self.branches[first].string = s + '$'
-        else:
-            if len(s) > 1:
-            
-            else:
-
-
-
-
-class TestStringMethods(unittest.TestCase):
-    def test_create(self):
-        st = SuffixTreeNode()
-        self.assertEqual(st.branches['A'], None)
-
-    def test_insert_suffix(self):
-        st = SuffixTreeNode()
-        st.insert_suffix('G')
-        self.assertEqual(st.branches['G'].string, 'G$')
-
-    def test_insert_multiple_suffixes(self):
-        st = SuffixTreeNode()
-        st.insert_suffix('G')
-        self.assertEqual(st.branches['G'].string, 'G$')
-        st.insert_suffix('AG')
-        self.assertEqual(st.branches['A'].branches['G'].string, 'G$')
-
-if __name__ == '__main__':
-    unittest.main()
+print main()
