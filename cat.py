@@ -1,29 +1,52 @@
 from collections import Counter
 import util
 
-def cat(N):
-    if N == 0:
+def complement(x):
+    if x == 'C':
+        return 'G'
+    if x == 'G':
+        return 'C'
+    if x == 'A':
+        return 'U'
+    if x == 'U':
+        return 'A'
+
+memo = {}
+
+def catalan(rna):
+    if rna in memo:
+        return memo[rna]
+
+    if len(rna) == 0:
         return 1
-    if N == 1:
+    if len(rna) == 1:
+        raise 'Unexpected'
+    if len(rna) == 2:
         return 1
-    catalan = [None] * (N+1)
-    catalan[0] = 1
-    catalan[1] = 1
-    for n in range(2, N+1):
-        cn = 0
-        for k in range(1, n+1):
-            cn += catalan[k - 1] * catalan[n - k]
-        catalan[n] = cn
-    return catalan[N]
+    counts = { 'C': 0, 'G': 0, 'A': 0, 'U': 0 }
+    head = rna[0]
+    counts[head] = 1
+    tail = rna[1:]
+    # print head, tail
+    result = 0
+    for i, x in enumerate(tail):
+        # print i, x
+        counts[x] += 1
+        front = tail[0:i]
+        back = tail[i+1:]
+        if counts['C'] == counts['G'] and counts['A'] == counts['U'] and head == complement(x):
+            result += catalan(front) * catalan(back)
+    # print rna, result
+    memo[rna] = result
+    return result
+    
+# print catalan('CCCGGG')
+assert catalan('AUAU') == 2
+assert catalan('UAGCGUGAUCAC') == 2
+assert catalan('CAUAUGAUAU') == 4
 
 def main():
-    arr = util.read_fasta('rosalind_cat.txt')
-    counts = Counter(arr[0])
-    count_u = (counts['U'] + counts['A']) / 2
-    count_c = (counts['C'] + counts['G']) / 2
-    print count_c
-    print count_u
-
-    print (cat(count_c) * cat(count_u)) % 1000000
+    arr = util.read_fasta('rosalind_cat2.txt')
+    print catalan(arr[0]) % 1000000
 
 main()
