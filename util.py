@@ -9,6 +9,11 @@ def complement(x):
     if x == 'T':
         return 'A'
 
+def reverse_complement(dna):
+    ans = [complement(x) for x in dna]
+    ans.reverse()
+    return ''.join(ans)
+
 def read_fasta(filename):
     strings = []
     current = []
