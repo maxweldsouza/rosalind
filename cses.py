@@ -1,24 +1,20 @@
-from collections import deque
-n = int(input())
+from collections import Counter, deque, OrderedDict
+import math
+import itertools
+import sys
 
-# print (n)
-if n == 1:
-    print (1)
-elif n == 2 or n == 3:
-    print ("NO SOLUTION")
-elif n == 4:
-    print ('2 4 1 3')
-else:
-    res = deque()
-    res.append(2)
-    res.append(4)
-    res.append(1)
-    res.append(3)
-    for i in range(5, n+1, 2):
-        res.append(i)
-        if i + 1 <= n:
-            res.appendleft(i+1)
+M = 1e9 + 7
 
-    for x in res:
-        print (x, end=" ")
+n, x = map(int, input().split(' '))
+c = list(map(int, input().split(' ')))
+
+dp = [0] * (x + 1)
+dp[0] = 1
+for i in range(1, x + 1):
+    for coin in c:
+        if i - coin >= 0:
+            dp[i] += dp[i - coin]
+            dp[i] = dp[i] % M
+
+print(int(dp[x]))
 

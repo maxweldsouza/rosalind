@@ -31,7 +31,7 @@ def corr(arr):
                     match = x
             if match and not k in done and not util.reverse_complement(k) in done:
                 done[k] = True
-                print (k, '->', match)
+                print (f'{k}->{match}')
 
 def main():
     arr = util.read_fasta('rosalind_corr.txt')
