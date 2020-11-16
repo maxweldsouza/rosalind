@@ -1,3 +1,4 @@
+import util
 from collections import Counter, deque, OrderedDict
 import math
 import itertools
@@ -36,7 +37,8 @@ assert edit('ABC', 'F') == 3
 assert edit('TWXFUABGBNLTBFNSUVQW', 'GPNJILFXJUIZPLTVUIB') == 19
 assert edit('L', 'LLLLLLL') == 6
 
-n = str(input())
-m = str(input())
+def main():
+    arr = util.read_fasta('rosalind_edit.txt')
+    print (edit(arr[0], arr[1]))
 
-print (edit(n, m))
+main()

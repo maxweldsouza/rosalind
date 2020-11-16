@@ -8,12 +8,12 @@ class BinTreeNode():
         self.depth = depth
 
     def pr(self):
-        print self.value + str(self.depth)
+        print (self.value + str(self.depth))
         if self.left:
-            print '    ',
+            print ('    '),
             self.left.pr()
         if self.right:
-            print '    ',
+            print ('    '),
             self.right.pr()
 
     def add_left(self, target, value):
@@ -117,7 +117,12 @@ def parse_tree(tokens, root):
                 root.left = internal
             elif not root.right:
                 root.right = internal
-            i = j
+
+            if j + 1 < len(tokens) and tokens[j+1] not in ['(', ')', ',', ';']:
+                internal.value = tokens[j+1]
+                i = j + 2
+            else:
+                i = j
         elif t == ')':
             i += 1
         elif t == ',':
@@ -125,7 +130,7 @@ def parse_tree(tokens, root):
         elif t == ';':
             i += 1
         else:
-            print t, root.value
+            # print (t, root.value)
             if not root.left:
                 root.left = BinTreeNode(t, root.depth+1)
             elif not root.right:
@@ -135,11 +140,11 @@ def parse_tree(tokens, root):
     
 # x = parse_tree(tokenize('(cat,mouse);'), BinTreeNode('root', 0))
 x = parse_tree(tokenize('(cat,mouse)dog;'), BinTreeNode('root', 0))
-x.pr()
+# x.pr()
 
     
 def main():
-    with open('nwck.input') as f:
+    with open('rosalind_nwck.txt') as f:
         x = f.read()
         arr = x.split('\n')
         arr = [x for x in arr if x]
@@ -148,13 +153,14 @@ def main():
         while i < len(arr):
             tree = parse_tree(tokenize(arr[i]), BinTreeNode('root', 0))
             x, y = arr[i+1].split(' ')
-            print x, y
+            # print (x, y)
             dist = tree.distance(x, y)
-            print dist
+            # print (dist)
             result.append(dist)
+            i += 2
         
         for x in result:
-            print result
+            print (x, end=' ')
 
 main()
 
