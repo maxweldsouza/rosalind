@@ -137,7 +137,7 @@ def parse_tree(tokens, root):
                 root.right = BinTreeNode(t, root.depth+1)
             i += 1
     return root
-    
+
 # x = parse_tree(tokenize('(cat,mouse);'), BinTreeNode('root', 0))
 x = parse_tree(tokenize('(cat,mouse)dog;'), BinTreeNode('root', 0))
 # x.pr()

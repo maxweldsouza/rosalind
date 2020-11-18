@@ -1,42 +1,36 @@
 from collections import Counter, deque, OrderedDict
 import math
 import itertools
+import operator
 import sys
+sys.setrecursionlimit(6000)
+import functools
 
 M = 1e9 + 7
 
-def edit(x, y):
-    cx = len(x)
-    cy = len(y)
-    dp = [[0 for y in range(cy + 1)] for i in range(cx + 1)]
-    for i in range(1, cx + 1):
-        dp[i][0] = i
-    for j in range(1, cy + 1):
-        dp[0][j] = j
-    for i in range(1, cx + 1):
-        for j in range(1, cy + 1):
-            dp[i][j] = math.inf
-            left = dp[i][j-1]
-            top = dp[i-1][j]
-            topleft = dp[i-1][j-1]
-            if x[i-1] == y[j-1]:
-                dp[i][j] = topleft
-            else:
-                dp[i][j] = min(left, top, topleft) + 1
+def range_sum(arr, queries):
+    s = [0] * len(arr)
+    c = 0
+    for i, x in enumerate(arr):
+        c += x
+        s[i] = c
+    for a, b in queries:
+        if a == 1:
+            print (s[b-1])
+        else:
+            print (s[b-1] - s[a-2])
 
-    return dp[cx][cy]
+def main():
+    n, q = map(int, input().split(' '))
+    x = list(map(int, input().split(' ')))
+    queries = []
+    for i in range(q):
+        query = tuple(map(int, input().split(' ')))
+        queries.append(query)
 
-assert edit('A', 'B') == 1
-assert edit('A', 'A') == 0
-assert edit('AB', 'AC') == 1
-assert edit('AB', 'A') == 1
-assert edit('BA', 'A') == 1
-assert edit('ABC', 'DEF') == 3
-assert edit('ABC', 'F') == 3
-assert edit('TWXFUABGBNLTBFNSUVQW', 'GPNJILFXJUIZPLTVUIB') == 19
-assert edit('L', 'LLLLLLL') == 6
+    range_sum(x, queries)
 
-n = str(input())
-m = str(input())
+main()
 
-print (edit(n, m))
+
+
