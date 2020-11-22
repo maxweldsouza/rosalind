@@ -9,6 +9,7 @@ import functools
 M = 1e9 + 7
 
 class BSTree(object):
+    size = 0
     def __init__(self, value=None, key=lambda x: x):
         self.value = value
         self.fn = key
@@ -28,6 +29,8 @@ class BSTree(object):
     def insert(self, x):
         if self.value is None:
             self.value = x
+            self.size += 1
+
         elif self.fn(x) < self.fn(self.value):
             if self.left is None:
                 self.left = BSTree(x)
@@ -47,6 +50,47 @@ class BSTree(object):
         elif self.fn(x) < self.fn(self.value) and self.right is not None:
             return self.right.find(x)
 
+    def lower_bound(self, x):
+        if self.value is None:
+            return None
+        xval = self.fn(x)
+        if xval <= self.fn(self.value) and self.left is not None:
+            return self.left.lower_bound(x)
+        elif xval >= self.fn(self.value) and self.right is not None and self.fn(self.right.value) <= xval:
+            return self.right.lower_bound(x)
+        else:
+            return self
+
+    def upper_bound(self, x):
+        if self.value is None:
+            return None
+        xval = self.fn(x)
+        if xval <= self.fn(self.value) and self.left is not None and self.fn(self.left.value) >= xval:
+            return self.left.upper_bound(x)
+        elif xval >= self.fn(self.value) and self.right is not None:
+            return self.right.upper_bound(x)
+        else:
+            return self
+
+    def delete(self, node):
+        pass
+
+    def to_array(self):
+        result = ['(']
+        if self.left is not None:
+            for x in self.left.to_array():
+                result.append(x)
+        result.append(str(self.value))
+        if self.right is not None:
+            for x in self.right.to_array():
+                result.append(x)
+        result.append(')')
+        return result
+
+    def __repr__(self):
+        return ' '.join(self.to_array())
+
+
 def test():
     b = BSTree('b')
     b.insert('c')
@@ -56,30 +100,33 @@ def test():
     assert b.find('c') == 2
 
 
-def rest(arr):
-    temp = BSTree(key=operator.itemgetter(0))
-    for a, b in arr:
-        temp.insert((a, 1))
-        temp.insert((b, -1))
-    ans = 0
-    c = 0
-    for _, x in temp:
-        c += x
-        ans = max(ans, c)
-    return ans
+def test_lower_bound():
+    b = BSTree()
+    assert b.lower_bound(1) is None
+    b.insert(1)
+    b.insert(2)
+    b.insert(4)
+    b.insert(5)
+    l = b.lower_bound(3)
+    assert l.value == 2
+    l = b.lower_bound(1)
+    assert l.value == 1
+    l = b.lower_bound(5)
+    assert l.value == 5
 
-assert rest([ [1, 20], [2, 19], [3, 18], [4, 17], [5, 16], [6, 15], [7, 14], [8, 13], [9, 12], [10, 11] ]) == 10
-assert rest([[5, 8], [2, 4], [3, 9]]) == 2
+def test_lower_bound_2():
+    b = BSTree()
+    assert b.lower_bound(1) is None
+    b.insert(4)
+    b.insert(1)
+    b.insert(5)
+    b.insert(2)
+    l = b.lower_bound(3)
+    assert l.value == 2
+    l = b.lower_bound(1)
+    assert l.value == 1
+    l = b.lower_bound(5)
+    assert l.value == 5
 
-def main():
-    n = int(input())
-    arr = []
-    for i in range(n):
-        a, b = map(int, input().split(' '))
-        arr.append((a, b,))
-    print (rest(arr))
-
-main()
-
-
-
+test_lower_bound()
+test_lower_bound_2()
