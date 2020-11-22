@@ -4,61 +4,63 @@ import math
 
 class SegmentTree(object):
     # https://www.hackerearth.com/practice/notes/segment-tree-and-lazy-propagation/
-    height = 0
-    def __init__(self, key=operator.add, size=32):
-        self.tree = [0] * size
+    def __init__(self, key=operator.add, initial=0, size=32):
+        self.tree = [initial] * 4 * size
         self.fn = key
         self.n = size
+        self.initial = initial
 
-    @staticmethod
-    def left(i):
-        return 2 * i + 1
-
-    @staticmethod
-    def right(i):
-        return 2 * i + 2
-
-    def position(self, i):
-        return math.pow(self.height, 2) - 1
-
-    def parent(self, i):
-        return (i - 1) // 2
-
-    def build(self, A, node, start, end):
+    def __build__(self, A, node, start, end):
         if start == end:
             # Leaf node will have a single element
+            if node < 0 or node >= len(self.tree):
+                print (node)
             self.tree[node] = A[start]
         else:
             mid = (start + end) // 2
             # Recurse on the left child
-            self.build(A, 2*node, start, mid)
+            self.__build__(A, 2*node, start, mid)
             # Recurse on the right child
-            self.build(A, 2*node+1, mid+1, end)
+            self.__build__(A, 2*node+1, mid+1, end)
             # Internal node will have the sum of both of its children
-            self.tree[node] = self.tree[2*node] + self.tree[2*node+1]
+            self.tree[node] = self.fn(self.tree[2*node], self.tree[2*node+1])
 
-    def query(self, node, start, end, l, r):
+    def build(self, A):
+        self.n = len(A)
+        self.__build__(A, 1, 0, self.n-1)
+
+    def __query__(self, node, start, end, l, r):
         if r < start or end < l:
             # range represented by a node is completely outside the given range
-            return 0
+            return self.initial
         if l <= start and end <= r:
             # range represented by a node is completely inside the given range
             return self.tree[node]
         # range represented by a node is partially inside and partially outside the given range
         mid = (start + end) // 2
-        p1 = self.query(2*node, start, mid, l, r)
-        p2 = self.query(2*node+1, mid+1, end, l, r)
-        return p1 + p2
+        p1 = self.__query__(2*node, start, mid, l, r)
+        p2 = self.__query__(2*node+1, mid+1, end, l, r)
+        return self.fn(p1, p2)
+
+    def query(self, l, r):
+        return self.__query__(1, 1, self.n, l, r)
 
 
 def test():
     t = SegmentTree()
-    t.build([1, 1, 1, 1, 1, 1, 1, 1], 1, 0, 7)
+    t.build([1, 1, 1, 1, 1, 1, 1, 1])
     # t.update(0, 0, 3, 0, 5)
     # t.update(0, 0, 3, 2, 1)
     print (t.tree)
-    print (t.query(1, 1, 8, 1, 5))
+    print (t.query(1, 8))
     # print (t.sum(1, 0, 7, 0, 3))
     # print (t.query(0, 2, 0, 1, 0))
 
-test()
+def test_large():
+    t = SegmentTree(size=200001)
+    a = [1] * 200000
+    t.build(a)
+    print (t.query(1, len(a)))
+
+test_large()
+# test()
