@@ -1,5 +1,6 @@
 # np hard
-import util
+from solutions import util
+
 
 def combine_index(dna1, dna2, i):
     return dna1[0:i] + dna2

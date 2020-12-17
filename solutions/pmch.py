@@ -1,4 +1,4 @@
-from util import read_fasta
+from solutions.util import read_fasta
 from collections import Counter
 from math import factorial
 

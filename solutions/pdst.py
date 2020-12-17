@@ -1,4 +1,5 @@
-import util
+from solutions import util
+
 
 def dist(a, b):
     count = 0

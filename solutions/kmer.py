@@ -1,6 +1,6 @@
-import util
+from solutions import util
 import itertools
-import collections
+
 
 def kmer():
     d = {}

@@ -1,4 +1,4 @@
-import util
+from solutions import util
 from collections import Counter
 
 def ways(n, k):

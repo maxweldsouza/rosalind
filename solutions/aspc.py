@@ -1,5 +1,4 @@
-import itertools
-from util import choose
+from solutions.util import choose
 
 def aspc(n, k):
     result = 0

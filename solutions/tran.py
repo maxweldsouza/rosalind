@@ -1,4 +1,4 @@
-import util
+from solutions import util
 
 arr = util.read_fasta('rosalind_tran.txt')
 

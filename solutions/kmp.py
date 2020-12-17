@@ -1,4 +1,5 @@
-import util
+from solutions import util
+
 
 def failure_arr(s):
     b = [-1] * len(s)

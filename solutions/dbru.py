@@ -1,4 +1,5 @@
-import util
+from solutions import util
+
 
 def dbru(arr):
     adj = set()

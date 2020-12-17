@@ -1,5 +1,5 @@
-from collections import Counter
-import util
+from solutions import util
+
 
 def complement(x):
     if x == 'C':

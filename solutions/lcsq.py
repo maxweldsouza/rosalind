@@ -1,4 +1,4 @@
-import util
+from solutions import util
 from collections import deque
 
 def backtrack(dp, x, y, i, j):
@@ -16,7 +16,7 @@ def backtrack(dp, x, y, i, j):
             i = i - 1
         else:
             j = j - 1
-    return result
+    return ''.join(result)
 
 def lcsq(x, y):
     cx = len(x)
@@ -34,13 +34,13 @@ def lcsq(x, y):
 
     return backtrack(dp, x, y, cx, cy)
 
-# assert lcsq('BAC', 'A') == 'A'
-# assert lcsq('A', 'A') == 'A'
-# assert lcsq('B', 'A') == ''
-# assert lcsq('AB', 'AB') == 'AB'
-# assert lcsq('CAB', 'AB') == 'AB'
-# assert lcsq('CABD', 'EABF') == 'AB'
-# assert lcsq('CAGBD', 'EAHBF') == 'AB'
+assert lcsq('BAC', 'A') == 'A'
+assert lcsq('A', 'A') == 'A'
+assert lcsq('B', 'A') == ''
+assert lcsq('AB', 'AB') == 'AB'
+assert lcsq('CAB', 'AB') == 'AB'
+assert lcsq('CABD', 'EABF') == 'AB'
+assert lcsq('CAGBD', 'EAHBF') == 'AB'
 
 def verify(s, ans):
     a = [x for x in reversed(ans)]
@@ -52,20 +52,11 @@ def verify(s, ans):
 
     assert len(a) == 0
 
-def lgis(arr):
-    s = list(sorted(arr))
-    inc = lcsq(arr, s)
-    print (' '.join(str(x) for x in inc))
-    dec = lcsq(arr, list(reversed(s)))
-    print (' '.join(str(x) for x in dec))
-
-
 def main():
-    with open('rosalind_lgis.txt') as f:
-        lines = f.readlines()
-        lines = [x.strip() for x in lines]
-        n = int(lines[0])
-        arr = list(map(int, lines[1].split(' ')))
-        lgis(arr)
+    arr = util.read_fasta('rosalind_lcsq.txt')
+    result = lcsq(arr[0], arr[1])
+    verify(arr[0], result)
+    verify(arr[1], result)
+    print (result)
 
 main()

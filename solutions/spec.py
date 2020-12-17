@@ -1,6 +1,6 @@
-import util
+from solutions import util
 import operator
-import collections
+
 
 def spec(l):
     table = [(p, w) for p, w in util.monoisotopic_mass_table.items()]

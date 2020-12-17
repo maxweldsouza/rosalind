@@ -1,4 +1,4 @@
-from disjoint_set import DisjointSet
+from solutions.disjoint_set import DisjointSet
 
 # make groups of connected nodes
 # result is the no of groups

@@ -1,4 +1,6 @@
-import util
+from solutions import util
+
+
 # Manacher's algorithm
 
 def complement(x):

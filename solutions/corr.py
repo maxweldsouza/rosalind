@@ -1,4 +1,5 @@
-import util
+from solutions import util
+
 
 def hamming_distance(a, b):
     ans = 0

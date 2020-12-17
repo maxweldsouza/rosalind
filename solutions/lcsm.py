@@ -1,4 +1,4 @@
-import util
+from solutions import util
 import itertools
 
 def get_min_length(arr):

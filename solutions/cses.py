@@ -69,14 +69,11 @@ size = 2*10**5+1
 def main():
     n, q = list(map(int, input().split(' ')))
     arr = list(map(int, input().split(' ')))
-    t = SegmentTree(key=min, size=size, initial=math.inf)
+    t = SegmentTree(key=operator.xor, size=size, initial=0)
     t.build(arr)
     for x in range(q):
-        type, i, j = list(map(int, input().split(' ')))
-        if type == 1:
-            t.update(i, j)
-        elif type == 2:
-            print (t.query(i, j))
+        i, j = list(map(int, input().split(' ')))
+        print (t.query(i, j))
 
 
 main()
